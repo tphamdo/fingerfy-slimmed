@@ -36,11 +36,14 @@
         <main role="main" class="container">
             <div class="row">
                 <div class="content-section col-12 mt-2 mb-5 pt-4 pb-4 pl-5 pr-5">
-                    <h2> ABOUT </h2>
+                    <hr><h2> ABOUT </h2>
                     <br>
                     <h5>This site allows you to find an optimal fingering for an arbitrary piano piece by using a simple dynamic programming algorithm. The "optimality" is based on difficulty ratings assigned to the transitions between one note and the next. The difficulty ratings primarily consider three things: distance between notes, which fingers are used to play each note, and whether a black key or a white key is used for each note. The ratings and pretty much the entire idea were inspired by Melanie Hart and Robert Bosch in their paper <a href="http://web.gps.caltech.edu/~tsai/files/HartBoschTsai_2000.pdf">Finding Optimal Piano Fingerings</a>. The implementation also uses the <a href="https://github.com/paulrosen/abcjs">ABCJS library</a> for its musical notation.</h5>
-                    <br> <br> <br>
-                    <h3>GUIDE TO ABC NOTATION</h3><br>
+                    <br> <br> <hr>
+                    <h2>WHY THIS SITE SUCKS</h2><br>
+                    <h5>It only finds fingerings for your right hand. It doesn't work with chords. You have to learn ABC notation (see guide). It may not work with all abc notation inputs. Possibly more.</h5>
+                    <br><br><hr>
+                    <h2>GUIDE TO ABC NOTATION</h2><br>
                     <h5>C is middle C (quarter note)<br>
                         c is one octave above middle C<br>
                         c' is two octaves above middle C (c'' is 3 above)<br>
