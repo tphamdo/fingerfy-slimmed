@@ -9,8 +9,10 @@
         <link rel="shortcut icon" href="filename" />
         <link rel="stylesheet" href="styles/style.css">
         <link href="styles/abcjs-audio.css" media="all" rel="stylesheet" type="text/css"/>
+        <link href="https://fonts.googleapis.com/css2?family=Arvo&family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
         <!-- {% block style %}{% endblock %} -->
         <title>Piano Fingering</title>
+        <script type="text/javascript" src="js/sessvars.js"></script>
     </head>
 
 
@@ -23,10 +25,10 @@
                     <div class="collapse navbar-collapse" id ="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="https://github.com/tphamdo/fingerfy-slimmed">Code</a>
+                                <a class="nav-link" id="code" href="https://github.com/tphamdo/fingerfy-slimmed">Code</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./about.html">About</a>
+                                <a class="nav-link" id="about"  href="./about.html">About</a>
                             </li>
                         </ul>
                     </div>
@@ -62,7 +64,7 @@ A: Author
 Q: 1/1=70
 L: 1/4
 % Enter notes below:
-CCCC</textarea>
+CDEF</textarea>
                     </div>
                     <div id="warnings" class="warnings alert alert-danger"></div>
                     <div class="form-group d-flex">
@@ -79,7 +81,7 @@ CCCC</textarea>
                         <div id="audio" class="d-flex justify-content-center"></div>
                         <div class="d-flex justify-content-center mt-2">
                             <div class="tooltip1">Info
-                                <span class="tooltiptext1 pl-2 pr-2">When switching between samples, you may need to click on the ABC editor to reset the midi audio player.</span>
+                                <span class="tooltiptext1 pl-2 pr-2">When switching between samples, you may need to click on the ABC editor to reset the midi audio player. This site sucks.</span>
                             </div>
                         </div>
                     </div>
@@ -87,32 +89,47 @@ CCCC</textarea>
             </div>
         <script type="text/javascript" src="js/samples.js"></script>
         <script type="text/javascript">
-            let current_abc_str = ""
-            let on_current =  true;
+            let places = ["about", "code"];
+            places.forEach( place => {
+                document.getElementById(place).addEventListener("click", () => {
+                    sessvars.justCameFromSomewhere = true;
+                });
+            });
+            sessvars.on_current =  true;
             let abc_editor = document.getElementById("abc");
-            let id_samples = ["current","sample1","sample2"];
-                id_samples.forEach( id => {
-                    document.getElementById(id).addEventListener("click", () => {
-                        if (id == "current") {
-                            if (!on_current) {
-                                abc_editor.value = current_abc_str;                   
-                                on_current = true;
-                                ABCJS.renderAbc("paper0", abc_editor.value, {});
-                            } 
-                        } else {
-                            if (on_current) {
-                                current_abc_str = document.getElementById("abc").value;
-                                abc_editor.value = samples[id]
-                                on_current = false;
-                            } else {
-                                abc_editor.value = samples[id]
-                            }
+            if (sessvars.justCameFromSomewhere) {
+                if (sessvars.current_abc_string) {
+                    abc_editor.value =  sessvars.current_abc_string;
+                } else {
+                    abc_editor.value = "%%staffsep 70\nT: Title\nA: Author\nQ: 1/1=70\nL: 1/4\n% Enter notes below:\nCDEF";
+                }
+                sessvars.justCameFromSomewhere = false;
+            } else {
+                abc_editor.value = "%%staffsep 70\nT: Title\nA: Author\nQ: 1/1=70\nL: 1/4\n% Enter notes below:\nCDEF";
+            }
+
+            let id_samples = ["current","sample1","sample2","about"];
+            id_samples.forEach( id => {
+                document.getElementById(id).addEventListener("click", () => {
+                    if (id == "current") {
+                        if (!sessvars.on_current) {
+                            abc_editor.value = sessvars.current_abc_string;
+                            sessvars.on_current = true;
+                            ABCJS.renderAbc("paper0", abc_editor.value, {});
+                        } 
+                    } else {
+                        if (sessvars.on_current) {
+                            sessvars.current_abc_string = document.getElementById("abc").value;
+                            sessvars.on_current = false;
+                        }
+                        if (id=="sample1"||id=="sample2") {
+                            abc_editor.value = samples[id];
                             ABCJS.renderAbc("paper0", abc_editor.value, {});
                         }
-                        abc_editor.focus();
-                        abc_editor.click();
-                    });
+                    }
                 });
+            });
+
         </script>
 
         <script type="module" src="js/index.js"></script>
