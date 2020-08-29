@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="styles/style.css">
+        <!-- {% block style %}{% endblock %} -->
+        <title>Piano Fingering</title>
+    </head>
+
+
+
+    <body>
+        <header class="site-header">
+            <nav class="navbar navbar-expand-md navbar-light" style="background-color:#90EE90">
+                <div class="container">
+                    <a class="navbar-brand" id="navBarBrand" href="./index.html">FINGERFY</a>
+                    <div class="collapse navbar-collapse" id ="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="./about.html">About</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main role="main" class="container">
+            <div class="row">
+                <div class="content-section col-12 mt-2 mb-5 pt-4 pb-4 pl-5 pr-5">
+                    <h2> ABOUT </h2>
+                    <br>
+                    <h4>This site allows you to find an optimal fingering for an arbitrary piano piece by using a simple dynamic programming algorithm. The "optimality" is based on difficulty ratings assigned to the transitions between one note and the next. The difficulty ratings primarily conside three things: distance between notes, which fingers are used to play each note, and whether a black key or a white key is used for each note. The ratings and pretty much the entire idea were inspired by by Melanie Hart and Robert Bosch in their paper <a href="http://web.gps.caltech.edu/~tsai/files/HartBoschTsai_2000.pdf">Finding Optimal Piano Fingerings</a>. The implementation also uses the <a href="https://github.com/paulrosen/abcjs">ABCJS library</a> for its musical notation.</h4>
+                    <br> <br> <br>
+                    <h3>GUIDE TO ABC NOTATION<h3><br>
+                    <h5>C is middle C (quarter note)<br>
+                        c is one octave above C<br>
+                        ^D is D sharp<br>
+                        _D is D flat <br>
+                        =D is D natural<br>
+                        C1/2 is a eigth note<br>
+                        C1/8 is a sxiteenth note<br>
+                        C2 is a half note<br>
+                        C4 is a whole note<br>
+                        | is bar</h5>
+                    <br>
+                    <h5>For more information on abc notation, see <a href="http://www.lesession.co.uk/abc/abc_notation.htm">this</a><h5>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

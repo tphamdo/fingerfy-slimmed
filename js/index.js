@@ -96,7 +96,7 @@ function adjustPitches(pitches) {
     console.log(pitches);
     pitches.forEach(pitch =>  {
         let note = new Pitch(pitch)
-        console.log(note.getNote())
+        // console.log(note.getNote())
     })
     return pitches
 }
