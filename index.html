@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!-- <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'> -->
+        <link rel="shortcut icon" href="filename" />
+        <link rel="stylesheet" href="styles/style.css">
+        <link href="styles/abcjs-audio.css" media="all" rel="stylesheet" type="text/css"/>
+        <!-- {% block style %}{% endblock %} -->
+        <title>Piano Fingering</title>
+    </head>
+
+
+
+    <body>
+        <header class="site-header">
+            <nav class="navbar navbar-expand-md navbar-light" style="background-color:#90EE90">
+                <div class="container">
+                    <a class="navbar-brand" id="navBarBrand" href="">FINGERFY</a>
+                </div>
+            </nav>
+        </header>
+
+        <main role="main" class="container">
+            <div class="row">
+
+                <div class="content-section col-12 mt-2 mb-5 pt-4 pb-4 pl-5 pr-5">
+                    <form method="POST" action="">
+                        <fieldset class="form-group">
+                            <div class="border-bottom mb-4 d-flex">
+                                <legend>dafdafadsfasdf</legend>
+                                <div class="ml-auto">
+                                    <div class="dropdown dropleft">
+                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Samples
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" id="current" href="#">Current</a>
+                                            <a class="dropdown-item" id="sample1" href="#sample-1">Sample 1</a>
+                                            <a class="dropdown-item" id="sample2" href="#sample-2">Sample 2</a>
+                                            <!-- <a class="dropdown-item" id="sample3" href="#sample-3">Sample 3</a> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <!-- {{ form.abc_string.label(class="form-control-lable") }} -->
+                                <!-- {{ form.abc_string(class="form-control form-control-lg", id="abc", rows="12")}} -->
+
+
+                                <textarea class="form-control form-control-lg" name="abc" id="abc" rows="12">
+                                    %%staffsep 70</textarea>
+                                <!-- %%staffsep 70 -->
+                                <!-- X: 1 -->
+                                <!-- T: Turkish March -->
+                                <!-- A: Wolfgang Amadeus Mozart -->
+                                <!-- M: 2/4 -->
+                                <!-- Q: 1/16=188 --> 
+                                <!-- K: C -->
+                                <!-- L: 1/16 -->
+                                <!-- BA^GA | c4 dcBc | e4 fe^de | ba^gaba^ga | c'4 a2c'2 | {=g2a2}b2a2g2a2 | -->
+                                <!-- {=g2a2}b2a2g2a2 | {=g2a2}b2a2 g2^f2 | e4 :| -->
+                            </div>
+                        </fieldset>
+                        <div id="warnings" class="warnings alert alert-danger"></div>
+                        <div class="form-group d-flex">
+                            <div>
+                                <button id="getFingering" class="btn btn-outline-info" type="button">Get Fingering</button>
+                                <button id="removeFingering" class="btn btn-outline-info" type="button">Remove Fingering</button>
+                            </div>
+                            <!-- <div class="ml-auto"> -->
+                            <!--     {% if current_user.is_authenticated %} -->
+                            <!--         {{ form.save(class="btn btn-outline-success", title="Save to your Tunes") }} -->
+                            <!--         {{ form.post(class="btn btn-outline-primary", title="Post to Community") }} -->
+                            <!--     {% endif %} -->
+                            <!-- </div> -->
+
+
+                        </div>
+                        <div id="fingeringWarning" class="warnings alert alert-warning"></div>
+                    </form>
+
+
+                </div>
+                <div class="content-section container mb-3">
+                    <div id="outer"><div id="paper0" class="paper"></div>
+                        <div id="selection"></div>
+                        <div id="audio" class="d-flex justify-content-center"></div>
+                        <!-- {% if title == 'New Tune' or title == 'Update Tune' or (title == 'View Tune' and tune.posted and tune.abc_string != tune.posted_abc_string) %} -->
+                        <div class="d-flex justify-content-center mt-2">
+                            <div class="tooltip1">Info
+                                <span class="tooltiptext1 pl-2 pr-2">When switching between samples, you may need to click on the ABC editor to reset the midi audio player.</span>
+                            </div>
+                        </div>
+                        <!-- {% endif %} -->
+                    </div>
+
+                </div>
+                <script type="text/javascript" src="js/samples.js"></script>
+                <script type="text/javascript">
+                    let current_abc_str = ""
+                    let on_current =  true;
+                    let abc_editor = document.getElementById("abc");
+                    let id_samples = ["current","sample1","sample2"];
+                        id_samples.forEach( id => {
+                            document.getElementById(id).addEventListener("click", () => {
+                                if (id == "current") {
+                                    if (!on_current) {
+                                        abc_editor.value = current_abc_str;                   
+                                        on_current = true;
+                                        ABCJS.renderAbc("paper0", abc_editor.value, {});
+                                    } 
+                                } else {
+                                    if (on_current) {
+                                        current_abc_str = document.getElementById("abc").value;
+                                        abc_editor.value = samples[id]
+                                        on_current = false;
+                                    } else {
+                                        abc_editor.value = samples[id]
+                                    }
+                                    ABCJS.renderAbc("paper0", abc_editor.value, {});
+                                }
+                                abc_editor.focus();
+                                abc_editor.click();
+                            });
+                        });
+                </script>
+
+
+
+                <script type="module" src="js/index.js"></script>
+                <script type="text/javascript" src="js/init_abcjs_editor.js">
+                </script>
+                <script src="js/abcjs_basic_5.9.1-min.js" type="text/javascript"></script>
+
+
+                <!-- {% endblock %} -->
+            <!-- </div> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        </main>
+
+    </body>
+</html>
+
+
